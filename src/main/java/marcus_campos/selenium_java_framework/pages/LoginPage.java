@@ -11,15 +11,14 @@ public class LoginPage {
         this.driver = driver;
     }
 
-    public void enterUsername(String username) {
+    public void login(String username, String password){
         driver.findElement(By.id("user-name")).sendKeys(username);
-    }
-
-    public void enterPassword(String password) {
         driver.findElement(By.id("password")).sendKeys(password);
     }
 
     public void clickLogin() {
         driver.findElement(By.id("login-button")).click();
     }
+
+
 }
