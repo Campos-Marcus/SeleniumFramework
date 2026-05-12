@@ -4,6 +4,8 @@ import marcus_campos.selenium_java_framework.Steps.LoginSteps;
 import marcus_campos.selenium_java_framework.base.BaseTest;
 import marcus_campos.selenium_java_framework.models.User;
 import marcus_campos.selenium_java_framework.pages.LoginPage;
+import marcus_campos.selenium_java_framework.utils.CsvReader;
+
 import org.junit.jupiter.api.Test;
 
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -18,33 +20,24 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class LoginTest extends BaseTest {
     static Stream<User> userProvider() {
-        return Stream.of(
-                new User("standard_user", "secret_sauce"),
-                new User("locked_out_user", "secret_sauce"));
+        return CsvReader.readUsersFromCsv().stream();
     }
 
-    @Test
-    void loginWithStandardUser() {
-
-        LoginSteps loginSteps = new LoginSteps(driver);
-
-        loginSteps.openLoginPage();
-
-        loginSteps.login(new User("standard_user", "secret_sauce"));
-
-        new WebDriverWait(driver, Duration.ofSeconds(5))
-                .until(ExpectedConditions.urlContains("inventory"));
-
-    }
-
-    @Test
-    void loginWithLockedUser() {
+    @ParameterizedTest
+    @MethodSource("userProvider")
+    void loginTest(User user) {
 
         LoginSteps steps = new LoginSteps(driver);
 
         steps.openLoginPage();
+        steps.login(user);
 
-        steps.login(new User("locked_out_user", "secret_sauce"));
+        if (user.shouldLoginSucceed()) {
+            new WebDriverWait(driver, Duration.ofSeconds(5))
+                    .until(ExpectedConditions.urlContains("inventory"));
+        } else {
+            // later: assert error message
+        }
     }
 
 }

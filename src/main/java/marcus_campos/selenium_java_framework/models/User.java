@@ -4,10 +4,12 @@ public class User {
 
     private String username;
     private String password;
+    private boolean shouldLoginSucceed;
 
-    public User(String username, String password) {
+    public User(String username, String password, boolean shouldLoginSucceed) {
         this.username = username;
         this.password = password;
+        this.shouldLoginSucceed = shouldLoginSucceed;
     }
 
     public String getUsername() {
@@ -16,5 +18,9 @@ public class User {
 
     public String getPassword() {
         return password;
+    }
+
+    public boolean shouldLoginSucceed() {
+        return shouldLoginSucceed;
     }
 }
