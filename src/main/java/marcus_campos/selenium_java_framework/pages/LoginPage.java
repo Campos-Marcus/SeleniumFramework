@@ -11,6 +11,7 @@ public class LoginPage {
     private By usernameInput = By.id("user-name");
     private By passwordInput = By.id("password");
     private By loginButton = By.id("login-button");
+    private By errorMessage = By.cssSelector("[data-test='error']");
 
     public void enterUsername(String username) {
         driver.findElement(usernameInput).sendKeys(username);
@@ -24,10 +25,12 @@ public class LoginPage {
         this.driver = driver;
     }
 
-    public void login(User user) {
+    public InventoryPage login(User user) {
         enterUsername(user.getUsername());
         enterPassword(user.getPassword());
         clickLogin();
+
+        return new InventoryPage(driver);
     }
 
     public void clickLogin() {
@@ -36,6 +39,11 @@ public class LoginPage {
 
     public void reachPage() {
         driver.get("https://www.saucedemo.com/");
+    }
+
+    public boolean hasLoginError() {
+        return driver.findElement(errorMessage)
+                .isDisplayed();
     }
 
 }

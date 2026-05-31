@@ -1,6 +1,7 @@
 package marcus_campos.selenium_java_framework.Steps;
 
 import marcus_campos.selenium_java_framework.models.User;
+import marcus_campos.selenium_java_framework.pages.InventoryPage;
 import marcus_campos.selenium_java_framework.pages.LoginPage;
 import org.openqa.selenium.WebDriver;
 
@@ -18,7 +19,11 @@ public class LoginSteps {
         loginPage.reachPage();
     }
 
-    public void login(User user) {
-        loginPage.login(user);
+    public InventoryPage login(User user) {
+        return loginPage.login(user);
+    }
+
+    public boolean hasLoginError() {
+        return loginPage.hasLoginError();
     }
 }
