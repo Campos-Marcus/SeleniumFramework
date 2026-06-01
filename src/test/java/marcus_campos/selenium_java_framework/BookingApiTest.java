@@ -24,6 +24,10 @@ public class BookingApiTest {
 
         BookingResponse bookingResponse = response.as(BookingResponse.class);
 
+        Integer bookingId = bookingResponse.getBookingid();
+
+        System.out.println("Booking ID: " + bookingId);
+
         assertEquals(
                 booking.getFirstname(),
                 bookingResponse.getBooking().getFirstname());
@@ -31,6 +35,12 @@ public class BookingApiTest {
         assertEquals(
                 booking.getLastname(),
                 bookingResponse.getBooking().getLastname());
+
+        Response getResponse = bookingClient.getBooking(bookingId);
+
+        assertEquals(
+                200,
+                getResponse.getStatusCode());
     }
 
 }

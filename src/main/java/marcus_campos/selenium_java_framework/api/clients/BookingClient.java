@@ -12,9 +12,18 @@ public class BookingClient {
 
         return RestAssured
                 .given()
-                    .contentType("application/json")
-                    .body(booking)
+                .contentType("application/json")
+                .body(booking)
                 .when()
-                    .post(BASE_URL + "/booking");
+                .post(BASE_URL + "/booking");
     }
+
+    public Response getBooking(Integer bookingId) {
+
+        return RestAssured
+                .given()
+                .when()
+                .get(BASE_URL + "/booking/" + bookingId);
+    }
+
 }
