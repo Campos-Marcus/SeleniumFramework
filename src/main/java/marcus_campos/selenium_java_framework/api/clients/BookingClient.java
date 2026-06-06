@@ -26,4 +26,18 @@ public class BookingClient {
                 .get(BASE_URL + "/booking/" + bookingId);
     }
 
+    public Response updateBooking(
+            Integer bookingId,
+            Booking booking,
+            String token) {
+
+        return RestAssured
+                .given()
+                .contentType("application/json")
+                .cookie("token", token)
+                .body(booking)
+                .when()
+                .put(BASE_URL + "/booking/" + bookingId);
+    }
+
 }
