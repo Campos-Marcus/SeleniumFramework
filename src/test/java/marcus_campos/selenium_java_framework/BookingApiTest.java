@@ -73,6 +73,30 @@ public class BookingApiTest {
                 assertEquals(
                                 "MarcusUpdated",
                                 updatedResponse.getFirstname());
+
+                Response getUpdatedResponse = bookingClient.getBooking(bookingId);
+
+                Booking retrievedBooking = getUpdatedResponse.as(Booking.class);
+
+                assertEquals(
+                                "MarcusUpdated",
+                                retrievedBooking.getFirstname());
+
+                Response deleteResponse = bookingClient.deleteBooking(
+                                bookingId,
+                                token);
+                deleteResponse.prettyPrint();
+
+                assertEquals(
+                                201,
+                                deleteResponse.getStatusCode());
+
+                Response deletedBookingResponse = bookingClient.getBooking(bookingId);
+
+                assertEquals(
+                                404,
+                                deletedBookingResponse.getStatusCode());
+                deletedBookingResponse.prettyPrint();
         }
 
 }

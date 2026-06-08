@@ -3,19 +3,16 @@ package marcus_campos.selenium_java_framework.api.clients;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import marcus_campos.selenium_java_framework.api.models.Booking;
+import marcus_campos.selenium_java_framework.api.config.ApiConfig;
 
-public class BookingClient {
-
-    private static final String BASE_URL = "https://restful-booker.herokuapp.com";
+public class BookingClient extends BaseApiClient {
 
     public Response createBooking(Booking booking) {
 
-        return RestAssured
-                .given()
-                .contentType("application/json")
+        return getRequestSpec()
                 .body(booking)
                 .when()
-                .post(BASE_URL + "/booking");
+                .post(ApiConfig.BASE_URL + "/booking");
     }
 
     public Response getBooking(Integer bookingId) {
@@ -23,7 +20,7 @@ public class BookingClient {
         return RestAssured
                 .given()
                 .when()
-                .get(BASE_URL + "/booking/" + bookingId);
+                .get(ApiConfig.BASE_URL + "/booking/" + bookingId);
     }
 
     public Response updateBooking(
@@ -31,13 +28,22 @@ public class BookingClient {
             Booking booking,
             String token) {
 
-        return RestAssured
-                .given()
-                .contentType("application/json")
+        return getRequestSpec()
                 .cookie("token", token)
                 .body(booking)
                 .when()
-                .put(BASE_URL + "/booking/" + bookingId);
+                .put(ApiConfig.BASE_URL + "/booking/" + bookingId);
+    }
+
+    public Response deleteBooking(
+            Integer bookingId,
+            String token) {
+
+        return RestAssured
+                .given()
+                .cookie("token", token)
+                .when()
+                .delete(ApiConfig.BASE_URL + "/booking/" + bookingId);
     }
 
 }
